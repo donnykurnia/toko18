@@ -1,0 +1,66 @@
+@CHARSET "UTF-8";
+
+.page_header ul {
+  padding: 0px;
+}
+.page_header li {
+  list-style: none;
+  float: left;
+  padding-right: 10px;
+}
+.w200 {
+  width: 200px;
+}
+.w400 {
+  width: 400px;
+}
+form fieldset li label {
+  float: left;
+}
+form fieldset li {
+  list-style: none;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+form fieldset ul {
+  padding: 0px;
+}
+
+#page_footer {
+  margin-top: 20px;
+}
+/*message*/
+.ui-widget {
+  margin-bottom: 20px;
+}
+.ui-widget .ui-state-error, .ui-widget .ui-state-highlight {
+  padding: 0 .7em;
+  cursor: pointer;
+  overflow: hidden;
+}
+.ui-state-error .ui-icon-alert, .ui-state-highlight .ui-icon-info {
+  float: left;
+  margin: 12px .3em 12px 0;
+  
+}
+.ui-state-error p, .ui-state-highlight p {
+  float: left;
+}
+/*form*/
+form.styled fieldset button {
+  float: right;
+}
+form.styled .mceLayout, form.styled .info {
+  width:auto;
+  margin:5px 0 0 10px;
+  float:left;
+}
+form.styled .existing {
+  width: 64px;
+  height: auto;
+  margin:5px 0 0 10px;
+  float:left;
+}
+/* general */
+.fleft { float:left; }
+.fright { float:right; }

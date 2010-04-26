@@ -1,0 +1,64 @@
+@CHARSET "UTF-8";
+
+form.styled {  /* set width in form, not fieldset (still takes up more room w/ fieldset width */
+  font:100% verdana,arial,sans-serif;
+  margin: 0;
+  padding: 0;
+  min-width: 500px;
+  max-width: 600px;
+  width: 640px; 
+}
+
+form.styled fieldset {
+  / * clear: both; note that this clear causes inputs to break to left in ie5.x mac, commented out */
+  border-color: #000;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;        /* padding in fieldset support spotty in IE */
+  margin: 0;
+}
+
+form.styled fieldset legend {
+  font-size:1.1em; /* bump up legend font size, not too large or it'll overwrite border on left */
+                       /* be careful with padding, it'll shift the nice offset on top of border  */
+}
+
+form.styled label.left { 
+  display: block;  /* block float the labels to left column, set a width */
+  float: left; 
+  width: 200px; 
+  padding: 0; 
+  margin: 5px 0 0; /* set top margin same as form.styled input - textarea etc. elements */
+  text-align: right; 
+}
+
+form.styled input, form.styled textarea, form.styled select {
+  /* display: inline; inline display must not be set or will hide submit buttons in IE 5x mac */
+  width:auto;      /* set width of form.styled elements to auto-size, otherwise watch for wrap on resize */
+  margin:5px 0 0 10px; /* set margin on left of form.styled elements rather than right of
+                              label aligns textarea better in IE */
+}
+
+form.styled span.text {
+  width:auto;
+  margin:5px 0 0 10px;
+}
+
+form.styled input#reset {
+  margin-left:0px; /* set margin-left back to zero on reset button (set above) */
+}
+
+textarea { overflow: auto; }
+
+form.styled small {
+  display: block;
+  margin: 0 0 5px 210px; /* instructions/comments left margin set to align w/ right column inputs */
+  padding: 1px 3px;
+  font-size: 88%;
+}
+
+form.styled .required{font-weight:bold;} /* uses class instead of div, more efficient */
+
+form.styled br {
+  clear:left; /* setting clear on inputs didn't work consistently, so brs added for degrade */
+}

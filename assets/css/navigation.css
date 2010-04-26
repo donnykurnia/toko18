@@ -1,0 +1,28 @@
+ul.navigation {
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+}
+ul.navigation li {
+  float: left;
+  padding-right: 10px;
+  list-style: none;
+}
+ul.navigation li.last {
+  padding-right: 0px;
+}
+.header h1 {
+  float: left;
+}
+div.nav {
+  clear: both;
+}
+p.usr {
+  float: right;
+}
+.body {
+  width: 800px;
+}
+#footer ul.navigation {
+  float: right;
+}

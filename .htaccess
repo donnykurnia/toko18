@@ -1,0 +1,49 @@
+RedirectMatch 403 /\.git.*$
+Options +FollowSymLinks -Indexes
+
+<IfModule mod_php5.c>
+  php_flag short_open_tag On
+  php_flag magic_quotes_gpc Off
+  php_flag magic_quotes_runtime Off
+  php_flag magic_quotes_sybase Off
+  php_flag track_vars On
+  php_flag register_globals Off
+  #php_value include_path .
+  php_value post_max_size 100M
+  php_value upload_max_filesize 50M
+</IfModule>
+<IfModule mod_php4.c>
+  php_flag short_open_tag On
+  php_flag magic_quotes_gpc Off
+  php_flag magic_quotes_runtime Off
+  php_flag magic_quotes_sybase Off
+  php_flag track_vars On
+  php_flag register_globals Off
+  #php_value include_path .
+  php_value post_max_size 100M
+  php_value upload_max_filesize 50M
+</IfModule>
+
+# Set the default handler.
+DirectoryIndex index.php
+
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteBase /
+
+  RewriteCond %{REQUEST_URI} ^/application.*
+  RewriteCond %{REQUEST_URI} ^/codeigniter.*
+  RewriteRule ^(.*)$ index.php/$1 [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  # If we don't have mod_rewrite installed, all 404's
+  # can be sent to index.php, and everything works as normal.
+  # Submitted by: ElliotHaughin
+  ErrorDocument 404 index.php
+</IfModule>

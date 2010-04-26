@@ -1,0 +1,26 @@
+/* blockUI */
+div.blockOverlay {
+  opacity:0.3;
+  background-color:#000;
+}
+div.blockMsg {
+  margin:0px;
+  width:30%;
+  left:35%;
+  text-align:center;
+  cursor:wait;
+  padding:0px;
+  border:none;
+  padding:15px;
+  background:#000 none;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  opacity:.5;
+  color:#fff;
+  font-size:15px;
+  font-family:"Helvetica Neue", Helvetica, "MgOpen Moderna", sans-serif !important;
+  overflow:hidden;
+}
+div.blockMsg img {
+  vertical-align:text-bottom;
+}

@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+.noprint { display:none }
+
+table {
+ border:1px solid #999;
+ clear:both;
+ margin:10px 0
+}
+table th, table td {
+ border:1px solid #999;
+ padding:7px 10px;
+ text-align:left;
+ vertical-align:top
+}
