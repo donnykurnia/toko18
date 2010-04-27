@@ -1,0 +1,178 @@
+
+#main_table table
+        {
+        width: auto;
+        padding: 0;
+        margin: 0 auto 1.5em auto;
+        border-left: 1px solid #3399CC;
+        border-collapse:collapse;
+		background-color:#99bcf0;
+        }
+#main_table caption { color:#006699; }
+#main_table .cs1
+        {
+        width:30em;
+        }
+#main_table .cs2
+        {
+        width:20em;
+        }
+#main_table .cs1 td,
+#main_table .cs2 td,
+#main_table #scientificNotation
+        {
+        text-align:right;
+        }
+#main_table caption
+        {
+        padding: 0 0 5px 0;
+        margin:0 auto;
+        width:auto;
+        font: 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        text-align: left;
+		font-weight:bold;
+        }
+#main_table th
+        {
+        font: bold 10px/22px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        /*border-right: 1px solid #3399CC;
+        border-bottom: 1px solid #3399CC;
+        border-top: 1px solid #3399CC;*/
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: left;
+        padding: 5px 12px 4px 13px;
+        background: #5f8fcf url(../images/bg_header.jpg) no-repeat;
+        vertical-align:middle;
+        }
+#main_table td.total
+        {
+        border-top: 0;
+        border-left: 0;
+       /* border-right: 1px solid #3399CC;*/
+        background: none;
+        text-align:right;
+        font-weight:bold;
+        letter-spacing:1px;
+        }
+#main_table th.sortable,
+#main_table th.sortable-text,
+#main_table th.sortable-date,
+#main_table th.sortable-keep,
+#main_table th.sortable-date-dmy,
+#main_table th.sortable-numeric,
+#main_table th.sortable-currency,
+#main_table th.sortable-sortByTwelveHourTimestamp,
+#main_table th.sortable-sortIPAddress,
+#main_table th.sortable-sortEnglishLonghandDateFormat,
+#main_table th.sortable-sortScientificNotation,
+#main_table th.sortable-sortImage,
+#main_table th.sortable-sortFileSize,
+#main_table th.sortable-sortAlphaNumeric,
+#main_table th.sortable-sortEnglishDateTime
+
+        {
+        cursor:pointer;
+        background: #5f8fcf url(../images/bg_header_sortable.jpg) no-repeat;
+        padding: 5px 12px 4px 16px;
+        }
+#main_table th.forwardSort
+        {
+        background:#CAE8EA url(../images/bg_header_down.jpg) no-repeat 0 0;
+        }
+#main_table th.reverseSort
+        {
+        background:#CAE8EA url(../images/bg_header_up.jpg) no-repeat 0 0;
+        }
+#main_table table thead th.forwardSort a,
+#main_table table thead th.reverseSort a
+        {
+        color:#000;
+        text-decoration:none;
+        }
+/*
+These styles should be added when very long tables are expected
+th.sort-active
+        {
+        background:#CAE8EA url(../images/bg_header_sorting.jpg) no-repeat 0 0;
+        cursor:wait;
+        }
+th.sort-active a
+        {
+        color:#a80000 !important;
+        cursor:wait;
+        }
+*/
+#main_table th a
+        {
+        text-decoration:none;
+        color: #FFFFFF;
+        background:transparent;
+        }
+
+#main_table td img
+        {
+        margin:0 auto;
+        border:3px solid #ddd;
+        }
+
+#main_table tbody td
+        {
+        font: normal 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+       /* border-right: 1px solid #336699;*/
+        border-bottom: 1px solid #BCDAF7;
+        padding: 3px 12px 3px 12px;
+        color: #4f6b72;
+        }
+#main_table td.lft
+        {
+        text-align:left;
+        }
+#main_table tr.alt
+        {
+        background: #E0EFFD;
+        color: #797268;
+        }
+
+#main_table tfoot td { border:none; text-align:right; font-size:10px; padding:5px;}
+#main_table tfoot td select { font-size:9px; }
+#main_table tfoot td a { margin-right:5px; margin-left:5px;}
+#main_table tfoot td a.pn { margin-right:1px; margin-left:1px;}
+
+#main_table tfoot div.showpage {float:left; text-align:left;}
+#main_table tfoot span.paging {margin-left:10px;}
+
+/* Poor old Internet Explorer 6 has a bug that means we can't use background images for the table rows
+   as it trys to download the image each and every time that it is used (which means a 1000 row table
+   will produce 1000 http requests for the image in question) */
+#main_table tr[class="alt"] td
+        {
+        background: #E0EFFD url(../images/td_alt.jpg) no-repeat;
+        }
+#main_table td[class~="alt"]
+        {
+        background: #edf3f3 url(../images/col_alt.jpg) no-repeat !important;
+        }
+/* Poor old Internet Explorer won't see the next two rules either as it doesn't get :first-child */
+/*tbody tr.alt td:first-child
+        {
+        background: #CCFFFF url(../images/bullet2.gif) no-repeat;
+        font-weight:bold;
+        }
+tbody tr td:first-child
+        {
+        background: #fff url(../images/bullet1.gif) no-repeat;
+        font-weight:bold;
+        }
+/* Image free rules for Internet Explorer < 7 */
+* html tr.alt td
+        {
+        background-color:#E0EFFD;
+        }
+* html tr td.alt,
+* html tr.alt td.alt
+        {
+        background-color:#edf3f3;
+        }
+		

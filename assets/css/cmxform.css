@@ -1,0 +1,50 @@
+/**********************************
+
+Name: cmxform Styles
+Author: Nick Rigby 
+
+***********************************/
+
+form.cmxform {
+	width: auto;
+	font-size: 1em;
+	color: #333;
+	}
+	
+form.cmxform legend { 
+	background-color:#3399CC;
+
+	color:#FFFFFF;
+	font-weight:bold;
+	/*font-variant:small-caps;*/
+	font-size:12px;
+		
+	padding:2px 5px; 
+	margin:0px;
+	/*position:relative;*/
+}
+	
+form.cmxform label { color: #333; font-weight:bold; width:180px; }
+
+form.cmxform fieldset {
+	border:none;
+	border-bottom:1px #B7DDF2 dotted;
+	border-top:1px #B7DDF2 dotted;	
+	}
+	
+form.cmxform fieldset fieldset { background: none; }
+	
+form.cmxform fieldset li {
+	padding: 5px 10px 7px;
+	}
+form.cmxform textarea { width:300px;}
+form.cmxform input { width:auto}
+
+form.box textarea { width:200px;}
+form.box {
+	width: 450px;
+	}
+form.box fieldset {
+	border: 2px solid #B7DDF2;
+	background: #ebf4fb;
+	}	
