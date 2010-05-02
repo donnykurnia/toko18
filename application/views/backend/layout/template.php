@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><?php echo (isset($title) AND $title) ? "{$title} - " : ''; ?>GAF Backend Site</title>
+<title><?php echo (isset($title) AND $title) ? "{$title} - " : ''; ?>Toko18</title>
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/table-style.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/form-style.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/styles.css" />
