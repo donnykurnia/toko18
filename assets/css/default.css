@@ -25,6 +25,10 @@ form fieldset li {
 form fieldset ul {
   padding: 0px;
 }
+#login_form {
+  width: 50%;
+  min-width: 300px;
+}
 
 #page_footer {
   margin-top: 20px;
@@ -61,6 +65,7 @@ form.styled .existing {
   margin:5px 0 0 10px;
   float:left;
 }
+form {clear:both;}
 /* general */
 .fleft { float:left; }
 .fright { float:right; }

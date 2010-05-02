@@ -5,6 +5,8 @@
 <title><?php echo (isset($title) AND $title) ? "{$title} - " : ''; ?>Toko18</title>
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/table-style.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/form-style.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/formee/css/form-structure.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/formee/css/form-style.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/styles.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/cupertino/jquery-ui-1.7.2.custom.css" />
 <link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="<?php echo base_url(); ?>assets/css/blockUI.css" />
