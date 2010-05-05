@@ -8,14 +8,15 @@
  *   load_page
  * required var:
  *   blockui_image
+ *   content_placeholder
  */
 jQuery(function($){
   //DOM loaded, code here
   //pagination handler
-  $(".pagenav").livequery('click', function(e){
+  $(".ajax_link").livequery('click', function(e){
     e.preventDefault();
     var href = $(this).attr("href");
-    $("#main_content").load_page('<img src="'+blockui_image+'" /> Loading...', href);
+    $(content_placeholder).load_page('<img src="'+blockui_image+'" /> Loading...', href);
     return false;
   });
 });

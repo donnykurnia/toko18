@@ -36,11 +36,14 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.form.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript">//<![CDATA[
-var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
 jQuery.blockUI.defaults.css = {};
 jQuery.blockUI.defaults.overlayCSS = {};
+var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
+var content_placeholder = "#main_content";
 //]]></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/message_handler.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/template.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/ajax_link.js"></script>
 <?php if ( isset($additional_js) AND is_array($additional_js) ): ?>
 <?php foreach ( $additional_js as $row ): ?>
   <script type="text/javascript" src="<?php echo $row; ?>"></script>
