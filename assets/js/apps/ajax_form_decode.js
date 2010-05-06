@@ -15,11 +15,13 @@
  */
 jQuery(function($){
   //DOM loaded, code here
+  $(form).bind('form-pre-serialize', function(e) {
+    $("input[name='ajax']").val("ajax");
+  });
   //jquery.form options
   var options = {
     beforeSubmit: function(a,f,o){
       $.hide_all_messages();
-      $("input[name='ajax']").val("ajax");
       $(form).block({
         message: '<img src="'+blockui_image+'" /> '+load_message
       });
