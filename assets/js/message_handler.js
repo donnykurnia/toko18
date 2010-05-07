@@ -9,12 +9,12 @@
 $.fn.display_message = function(message_type, message_text){
   var message_parent;
   //check if message placeholder is exist in page or not
-  if ($(".ui-widget").length == 0){
+  if ($(".ui-widget", $(this).parent()).length == 0){
     message_parent = $('<div class="ui-widget noprint"></div>');
     $(this).before(message_parent);
   }
   else {
-    message_parent = $(".ui-widget");
+    message_parent = $(".ui-widget", $(this).parent());
   }
   //determine class and icon for message
   var state = 'ui-state-error';
