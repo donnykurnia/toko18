@@ -24,7 +24,7 @@ class User extends MY_Controller {
   {
     parent::MY_Controller();
     //load model
-    $this->load->model('system_log_model');
+    $this->load->model('user_model');
   }
 
   /**
@@ -53,19 +53,6 @@ class User extends MY_Controller {
       {
         $result = TRUE;
         $result = $result AND $this->user_model->delete($user_id);
-        if ( $result )
-        {
-          //insert process_log
-          $log_data = array(
-            'user_id'           => $this->session->userdata('user_id'),
-            'ip_address'        => inet_aton($this->input->ip_address()),
-            'process_timestamp' => date('Y-m-d H:i:s', time()),
-            'action_type'       => 'delete',
-            'action_module'     => 'user',
-            'process_message'   => sprintf("Delete user with id=%s", $user_id)
-          );
-          $this->system_log_model->insert($log_data);
-        }
         if ( $result )
         {
           $this->data['success_message'] = 'User deleted!';
@@ -373,16 +360,6 @@ class User extends MY_Controller {
         {
           $this->data['success_message'] = 'User Added!';
           $user_id = $result;
-          //insert process_log
-          $log_data = array(
-            'user_id'           => $this->session->userdata('user_id'),
-            'ip_address'        => inet_aton($this->input->ip_address()),
-            'process_timestamp' => date('Y-m-d H:i:s', time()),
-            'action_type'       => 'insert',
-            'action_module'     => 'user',
-            'process_message'   => sprintf("Insert new user with id=%s", $user_id)
-          );
-          $this->system_log_model->insert($log_data);
         }
       }
       else // edit
@@ -395,16 +372,6 @@ class User extends MY_Controller {
         if ( $result )
         {
           $this->data['success_message'] = 'User Edited!';
-          //insert process_log
-          $log_data = array(
-            'user_id'           => $this->session->userdata('user_id'),
-            'ip_address'        => inet_aton($this->input->ip_address()),
-            'process_timestamp' => date('Y-m-d H:i:s', time()),
-            'action_type'       => 'update',
-            'action_module'     => 'user',
-            'process_message'   => sprintf("Update user data with id=%s", $user_id)
-          );
-          $this->system_log_model->insert($log_data);
         }
       }
       //get error message
@@ -455,7 +422,7 @@ class User extends MY_Controller {
     $this->data['user_role_options'] = $user_enums['user_role'];
     //load view
     $this->load->library('view');
-    $this->view->layout = 'default/layout/template_center';
+    $this->view->layout = 'default/layout/template';
     $this->view->data($this->data);
     $this->view->load(array(
       'page_header'  => 'default/_header',
@@ -533,16 +500,6 @@ class User extends MY_Controller {
       if ( $result )
       {
         $this->data['success_message'] = 'Profile Updated!';
-        //insert process_log
-        $log_data = array(
-          'user_id'           => $this->session->userdata('user_id'),
-          'ip_address'        => inet_aton($this->input->ip_address()),
-          'process_timestamp' => date('Y-m-d H:i:s', time()),
-          'action_type'       => 'update',
-          'action_module'     => 'profile',
-          'process_message'   => "Update profile data"
-        );
-        $this->system_log_model->insert($log_data);
       }
       //get error message
       $this->data['error_message'] .= str_replace("\n", "", $this->user_model->display_errors('', '<br/>'));
@@ -580,7 +537,7 @@ class User extends MY_Controller {
     $this->data['user_detail'] = $user_detail;
     //load view
     $this->load->library('view');
-    $this->view->layout = 'default/layout/template_center';
+    $this->view->layout = 'default/layout/template';
     $this->view->data($this->data);
     $this->view->load(array(
       'page_header'  => 'default/_header',
@@ -669,7 +626,7 @@ class User extends MY_Controller {
     $this->data['page_title'] = 'Login';
     //load view
     $this->load->library('view');
-    $this->view->layout = 'default/layout/template_center';
+    $this->view->layout = 'default/layout/template';
     $this->view->data($this->data);
     $this->view->load(array(
       'page_header'  => 'default/_header',

@@ -16,8 +16,8 @@ class User_model extends MY_Model {
   {
     // Call the Model constructor
     parent::MY_Model();
-    $this->table = 'wb_user';
-    $this->primary_key = 'uid';
+    $this->table = 'user';
+    $this->primary_key = 'id';
   }
 
   /**
@@ -26,55 +26,61 @@ class User_model extends MY_Model {
    */
   function check_login()
   {
-    return ( $this->session->userdata('uid') !== FALSE );
+    return ( $this->session->userdata('user_id') !== FALSE );
   }
 
   /**
    *
    * @return boolean
    */
-  function check_is_admin()
+  function check_is_administrator()
   {
-    return ( $this->session->userdata('is_admin') == TRUE  );
+    return ( $this->session->userdata('user_role') == 'administrator' );
   }
 
   /**
    *
-   * @param $email string
-   * @param $password string
+   * @param $username string
+   * @param $user_password string
    * @return user_data or FALSE
    */
-  function login($email='', $password='')
+  function login($username='', $user_password='')
   {
-    $email = trim($email);
-    $password = trim($password);
-    if ( $email != '' AND $password != '' )
+    $username = trim($username);
+    $user_password = trim($user_password);
+    if ( $username != '' AND $user_password != '' )
     {
-      $email_q = $this->db->escape($email);
-      $password_q = $this->db->escape(sha1($password));
+      $username_q = $this->db->escape($username);
       //check admin
-      $condition = " email=$email_q AND password=$password_q ";
+      $condition = " username={$username_q} ";
       $result = $this->get_all($condition);
       if ( $result AND count($result) == 1 )
       {
         //set session
         $user_data = $result[0];
-        $session = array(
-          'uid'       => $user_data['uid'],
-          'email'     => $user_data['email'],
-          'is_admin'  => ($user_data['is_admin'] == 1)
-        );
-        $this->session->set_userdata($session);
-        return $user_data;
+        //check the password
+        $password_check = sha1($user_data['password_salt'].$user_password);
+        if ( $password_check == $user_data['user_password'] )
+        {
+          $session = array(
+            'user_id'   => $user_data['id'],
+            'username'  => $user_data['username'],
+            'user_role' => $user_data['user_role']
+          );
+          $this->session->set_userdata($session);
+          //update user data in database
+          $this->update($user_data['id'], array(
+            'last_login_datetime' => date('Y-m-d H:i:s'),
+            'last_login_ip' => inet_aton($this->CI->input->ip_address())
+          ));
+          return $user_data;
+        }
       }
-      else
-      {
-        $this->set_error('Wrong combination of email and password!');
-      }
+      $this->set_error('Wrong combination of username and password!');
     }
     else
     {
-      $this->set_error('Please fill in email and password!');
+      $this->set_error('Please fill in username and password!');
     }
     return FALSE;
   }
@@ -86,29 +92,48 @@ class User_model extends MY_Model {
   function logout()
   {
     $session = array(
-      'uid'       => '',
-      'email'     => '',
-      'is_admin'  => ''
+      'user_id'   => '',
+      'username'  => '',
+      'user_role' => ''
     );
     $this->session->unset_userdata($session);
     return TRUE;
   }
 
   /**
-   * Check if email already registered in database
-   * @param $email string
+   * return username in session
+   */
+  function session_user_id()
+  {
+    return $this->session->userdata('user_id');
+  }
+
+  /**
+   * return username in session
+   */
+  function session_username()
+  {
+    return $this->session->userdata('username');
+  }
+
+  /**
+   * Check if username already registered in database
+   * @param $username string
+   * @param $id int
    * @return boolean
    */
-  function is_email_exist($email='')
+  function is_username_exist($username='', $id=0)
   {
-    $email = trim($email);
-    if ( $email != '' )
+    //sanitize
+    $username = trim($username);
+    $id = intval($id);
+    if ( $username != '' )
     {
-      $email_e = $this->db->escape($email);
-      $count = $this->get_total(" email=$email_e ");
+      $username_e = $this->db->escape($username);
+      $count = $this->get_total(" username={$username_e} AND id<>{$id} ");
       return ($count > 0);
     }
-    return FALSE;
+    return TRUE;
   }
 
   /**
@@ -119,21 +144,29 @@ class User_model extends MY_Model {
   function delete($id=0)
   {
     $id = intval($id);
-    $result = parent::delete($id);
-    if ( $result )
+    $detail = $this->get_detail($id);
+    if ( $id == $this->session->userdata('user_id') )
     {
-      //delete related data
-      $this->CI->load->model('user_country_list_model');
-      $this->CI->user_country_list_model->delete_by_user($id);
-      $this->CI->load->model('user_reseller_list_model');
-      $this->CI->user_reseller_list_model->delete_by_user($id);
-      $this->CI->load->model('links_model');
-      $this->CI->links_model->delete_by_user($id);
+      $this->set_error('Cannot delete yourself!');
+      return FALSE;
     }
-    return $result;
+    elseif ( ! $this->check_is_administrator() )
+    {
+      $this->set_error('Not authorized!');
+      return FALSE;
+    }
+    else
+    {
+      $result = parent::delete($id);
+      if ( $result )
+      {
+        //delete related data
+      }
+      return $result;
+    }
   }
 
 }
 
 /* End of file user_model.php */
-/* Location: ./system/application/models/user_model.php */
+/* Location: ./application/models/user_model.php */

@@ -217,7 +217,7 @@ $config['cache_path'] = APPPATH.'cache/';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "dfsleDED43$%2123";
+$config['encryption_key'] = "dada$%sewe2143j";
 
 /*
 |--------------------------------------------------------------------------
@@ -231,7 +231,7 @@ $config['encryption_key'] = "dfsleDED43$%2123";
 | 'time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'gaf_dev';
+$config['sess_cookie_name']		= 'toko18';
 $config['sess_expiration']		= 7200;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= FALSE;
