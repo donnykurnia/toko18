@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `pembelian` (
   `qty` int(11) NOT NULL DEFAULT 0,
   `harga_satuan` decimal(15,2) NOT NULL DEFAULT 0.0,
   `diskon` decimal(15,2) NOT NULL DEFAULT 0.0,
+  `keterangan_transaksi` TEXT,
   `tanggal_input` datetime NOT NULL,
   `tanggal_update` datetime NOT NULL,
   PRIMARY KEY (`id`),
