@@ -47,6 +47,35 @@ class Barang_model extends MY_Model {
   }
 
   /**
+   * Get total joined with user table to get username column
+   * @param $num integer
+   * @param $offset integer
+   * @param $condition string
+   * @param $order_by string
+   * @return result_array, array or FALSE
+   */
+  function get_total_with_username($condition='')
+  {
+    $this->CI->load->model('user_model');
+    $sql = "    SELECT COUNT(*) total ".
+           "      FROM {$this->table} b ".
+           " LEFT JOIN {$this->CI->user_model->table} u ".
+           "        ON u.id=b.user_id ";
+    if ( trim($condition) !== '' )
+    {
+      $where = trim($condition);
+      $sql .= " WHERE ( {$where} ) ";
+    }
+    $result = $this->get_list_by_sql(-1, 0, $sql);
+    if ( $result )
+    {
+      $row = $result[0];
+      return $row['total'];
+    }
+    return 0;
+  }
+
+  /**
    * Check if a department can be deleted (no sub department and no position in it
    * @param $id integer
    * @return boolean
