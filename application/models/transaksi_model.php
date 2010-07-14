@@ -48,14 +48,14 @@ class Transaksi_model extends MY_Model {
   }
 
   /**
-   * Get total joined with user table to get username column
+   * Get total joined with barang table and user table to get nama_barang and username column
    * @param $num integer
    * @param $offset integer
    * @param $condition string
    * @param $order_by string
    * @return result_array, array or FALSE
    */
-  function get_total_with_username($condition='')
+  function get_list_with_barang_username($condition='')
   {
     $this->CI->load->model('user_model');
     $sql = "    SELECT COUNT(*) total ".
