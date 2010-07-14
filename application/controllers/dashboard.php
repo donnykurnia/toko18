@@ -14,9 +14,9 @@
  * @property Firephp $firephp
  * @property ADOConnection $adodb
  */
-class Front extends MY_Controller {
+class Dashboard extends MY_Controller {
 
-  function Front()
+  function Dashboard()
   {
     parent::MY_Controller();
     //load model
@@ -30,15 +30,25 @@ class Front extends MY_Controller {
    */
   function index()
   {
+    //default data
+    $redirect_to = 'user/login';
+    //if not already login, redirect
+    if ( ! $this->user_model->check_login() )
+    {
+      redirect($redirect_to);
+    }
+
+    $this->data['in_dashboard'] = TRUE;
     //page title
-    $this->data['title'] = 'Halaman depan';
+    $this->data['title'] = 'Halaman Dashboard';
+    $this->data['page_title'] = 'Halaman Dashboard';
     //load view
     $this->load->library('view');
     $this->view->layout = 'default/layout/template';
     $this->view->data($this->data);
     $this->view->load(array(
       'page_header'  => 'default/_header',
-      'main_content' => 'default/front_index',
+      'main_content' => 'default/dashboard_index',
       'page_footer'  => 'default/_footer',
     ));
     $this->view->render();
@@ -46,5 +56,5 @@ class Front extends MY_Controller {
 
 }
 
-/* End of file front.php */
-/* Location: ./system/application/controllers/front.php */
+/* End of file dashboard.php */
+/* Location: ./application/controllers/dashboard.php */
