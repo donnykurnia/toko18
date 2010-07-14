@@ -6,48 +6,51 @@
  *   jQuery.form
  *   jQuery.blockUI
  *   json2
+ *   message_handler
  * required var:
- *   blockui_image
- *   content_placeholder
  *   form
+ *   blockui_image
+ *   message_area
+ *   content_placeholder
  *   load_message
  */
+
 jQuery(function($){
   //DOM loaded, code here
-  $(form).bind('form-pre-serialize', function(e) {
-    $("input[name='ajax']").val("ajax");
-  });
   //jquery.form options
-  var options = {
-    beforeSubmit: function(a,f,o){
+  $(form).ajaxForm({
+    beforeSerialize: function($form, options) { 
+      $("input[name='ajax']", $form).val("ajax");
+    },
+    beforeSubmit: function(a,$form,o){
       $.hide_all_messages();
-      $(form).block({
+      $form.block({
         message: '<img src="'+blockui_image+'" /> '+load_message
       });
     },
-    success: function(resp) {
-      $(form).unblock();
+    success: function(resp, statusText, $form) {
+      $form.unblock();
       try {
         var r = JSON.parse(resp);
         if (r.new_content) {
           $(content_placeholder).html(r.new_content);
         }
         if (r.reload) {
-          $.get(r.reload,
-            {'nbRandom': Math.random()},
-            function(get_resp){
-              $(content_placeholder).html(get_resp);
-            });
+          setTimeout(function(){
+            window.top.location.assign(r.reload);
+          }, 2000);
         }
         if (r.error_message) {
-          $(form).display_message('error', r.error_message);
+          $(message_area).display_message('error', r.error_message);
         }
         if (r.success_message) {
-          $(form).display_message('success', r.success_message);
+          $(message_area).display_message('success', r.success_message);
+        }
+        if (typeof(callback) == 'function') {
+          callback(resp);
         }
       }
       catch (e) {}
     }
-  };
-  $(form).ajaxForm(options);
+  });
 });

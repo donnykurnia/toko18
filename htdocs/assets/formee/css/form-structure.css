@@ -50,8 +50,8 @@ Structure
 /*.form-container { border:1px solid; display: block; clear:both; overflow: hidden;}*/
 .form-msg-info, .form-msg-warning, .form-msg-error, .form-msg-success {padding:6px 10px 5px; display: block;height: auto; margin: -0.3em 0 0.5em;}
 /*.form .form-txt, .form textarea {	margin: 0.3%;	background: transparent;	width: 99.4%;}*/
-.form .form-txt, .form textarea, .form select {min-width: 98%;max-width: 98%;padding:5px;border: 1px solid #999;}
-.form textarea {	height: 15em;width: 98%;}
+.form .form-txt, .form textarea, .form select {min-width: 90%;max-width: 90%;padding:5px;border: 1px solid #999;}
+.form textarea {	height: 15em;width: 90%;}
 .form select {padding:4px;}
 
 /* form button  */

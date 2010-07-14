@@ -9,12 +9,12 @@
 $.fn.display_message = function(message_type, message_text){
   var message_parent;
   //check if message placeholder is exist in page or not
-  if ($(".ui-widget", $(this).parent()).length == 0){
-    message_parent = $('<div class="ui-widget noprint"></div>');
-    $(this).before(message_parent);
+  if ($(".message_area", this).length == 0){
+    message_parent = $('<div class="ui-widget message_area noprint"></div>');
+    this.prepend(message_parent);
   }
   else {
-    message_parent = $(".ui-widget", $(this).parent());
+    message_parent = $(".message_area", this);
   }
   //determine class and icon for message
   var state = 'ui-state-error';
@@ -39,7 +39,7 @@ $.fn.display_message = function(message_type, message_text){
 };
 $.extend($, {
   hide_all_messages: function(){
-    var message_parent = $(".ui-widget");
+    var message_parent = $(".message_area");
     $('.ui-state-highlight,.ui-state-error').hide().remove();
     //remove parent if empty
     if (message_parent.children().length == 0){
@@ -51,7 +51,7 @@ $.extend($, {
 })(jQuery);
 //handle click in message
 jQuery(function($){
-  $('.ui-state-highlight,.ui-state-error').livequery('click', function(e){
+  $('.ui-state-highlight,.ui-state-error', ".message_area").livequery('click', function(e){
     e.preventDefault();
     var message_parent = $(this).parent();
     $(this).hide().remove();

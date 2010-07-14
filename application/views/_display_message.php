@@ -2,7 +2,7 @@
            ( isset($error_message) AND $error_message ) OR
            $this->session->flashdata('success_message') !== FALSE OR
            ( isset($success_message) AND $success_message ) ): ?>
-<div class="ui-widget noprint">
+<div class="ui-widget message_area noprint">
   <?php if ( $this->session->flashdata('error_message') !== FALSE ): ?>
     <div class="ui-state-error ui-corner-all">
       <span class="ui-icon ui-icon-alert"></span>

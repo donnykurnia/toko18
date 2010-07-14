@@ -13,7 +13,7 @@
 jQuery(function($){
   //DOM loaded, code here
   //pagination handler
-  $(".ajax_link").livequery('click', function(e){
+  $(".pagenav, .ajax_link").livequery('click', function(e){
     e.preventDefault();
     var href = $(this).attr("href");
     $(content_placeholder).load_page('<img src="'+blockui_image+'" /> Loading...', href);
