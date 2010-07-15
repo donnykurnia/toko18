@@ -40,7 +40,7 @@ class Barang_model extends MY_Model {
     {
       $sort = "kode_barang ASC";
     }
-    $list = $this->get_all($condition, $sort);
+    $list = $this->get_list_with_username(-1, 0, $condition, $sort);
     if ( $list )
     {
       foreach ( $list as $row )
