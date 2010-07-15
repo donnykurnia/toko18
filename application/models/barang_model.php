@@ -18,6 +18,45 @@ class Barang_model extends MY_Model {
   }
 
   /**
+   * Return an array for form_dropdown usage
+   * @param $first string
+   * @param $condition strung
+   * @param $escape_html boolean
+   * @return array
+   */
+  function get_for_options($first="", $condition="", $with_code=TRUE, $escape_html=FALSE)
+  {
+    //default value
+    $result = array();
+    //sanitize
+    $first = trim($first);
+    if ( $first )
+    {
+      $result[0] = $first;
+    }
+
+    $sort = "nama_barang ASC";
+    if ( $with_code )
+    {
+      $sort = "kode_barang ASC";
+    }
+    $list = $this->get_all($condition, $sort);
+    if ( $list )
+    {
+      foreach ( $list as $row )
+      {
+        $option = $row['nama_barang'];
+        if ( $with_code )
+        {
+          $option = "[{$row['kode_barang']}] {$row['nama_barang']}";
+        }
+        $result[$row['id']] = $escape_html ? htmlentities($option, ENT_COMPAT, 'UTF-8') : $option;
+      }
+    }
+    return $result;
+  }
+
+  /**
    * Get list joined with user table to get username column
    * @param $num integer
    * @param $offset integer
