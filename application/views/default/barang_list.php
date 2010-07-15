@@ -15,6 +15,7 @@
       <th scope="col">Kode Barang</th>
       <th scope="col">Nama Barang</th>
       <th scope="col">Spesifikasi Barang</th>
+      <th scope="col">Qty</th>
       <th scope="col">Satuan Barang</th>
       <th scope="col">Input oleh</th>
       <th scope="col" class="noprint">Action</th>
@@ -28,6 +29,7 @@
       <td><?php echo $row['kode_barang']; ?></td>
       <td><?php echo $row['nama_barang']; ?></td>
       <td><?php echo nl2br($row['spesifikasi_barang']); ?></td>
+      <td><?php echo $row['qty']; ?></td>
       <td><?php echo $row['satuan_barang']; ?></td>
       <td><?php echo $row['username']; ?></td>
       <td class="noprint">

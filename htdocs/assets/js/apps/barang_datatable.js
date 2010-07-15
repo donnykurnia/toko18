@@ -20,6 +20,7 @@ jQuery(function($){
       null,
       null,
       null,
+      null,
       { "bSortable": false }
     ],
     "aaSorting": [[ 1, "asc" ]],

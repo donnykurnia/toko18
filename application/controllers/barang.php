@@ -171,6 +171,7 @@ class Barang extends MY_Controller {
       $arr_condition[] = "nama_barang LIKE {$sSearch_e}";
       $arr_condition[] = "spesifikasi_barang LIKE {$sSearch_e}";
       $arr_condition[] = "satuan_barang LIKE {$sSearch_e}";
+      $arr_condition[] = "qty LIKE {$sSearch_e}";
     }
     $condition = implode(" OR ", $arr_condition);
     $sort_arr = array();
@@ -179,7 +180,7 @@ class Barang extends MY_Controller {
     {
       $iSortCol = intval($this->input->get("iSortCol_{$i}"));
       $sSortDir = trim($this->input->get("sSortDir_{$i}")) == 'asc' ? 'asc' : 'desc';
-      $column_arr = array('','kode_barang','nama_barang','spesifikasi_barang','satuan_barang','username', '');
+      $column_arr = array('','kode_barang','nama_barang','spesifikasi_barang', 'qty','satuan_barang','username', '');
       $sort_arr[] = "{$column_arr[$iSortCol]} {$sSortDir}";
     }
     $sort = implode(",", $sort_arr);
@@ -205,6 +206,7 @@ class Barang extends MY_Controller {
           $row['kode_barang'],
           $row['nama_barang'],
           nl2br($row['spesifikasi_barang']),
+          $row['qty'],
           $row['satuan_barang'],
           $row['username'],
           '<a href="'.site_url("barang/form/{$row['id']}").'">Edit Barang</a> | <a href="javascript:;" class="delete {\'barang_id\': '.$row['id'].'}">Hapus Barang</a>'
