@@ -158,4 +158,4 @@ class Barang_model extends MY_Model {
 }
 
 /* End of file barang_model.php */
-/* Location: ./system/application/models/barang_model.php */
+/* Location: ./application/models/barang_model.php */

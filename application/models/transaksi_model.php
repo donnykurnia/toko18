@@ -106,4 +106,4 @@ class Transaksi_model extends MY_Model {
 }
 
 /* End of file transaksi_model.php */
-/* Location: ./system/application/models/transaksi_model.php */
+/* Location: ./application/models/transaksi_model.php */
