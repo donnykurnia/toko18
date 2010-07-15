@@ -4,7 +4,7 @@
 <?php endif; ?>
 </div>
 
-<?php echo form_open(current_url(), array('id' => 'barang_form', 'class' => 'form')); ?>
+<?php echo form_open(current_url(), array('id' => 'transaksi_form', 'class' => 'form')); ?>
 <fieldset>
   <legend>
     <?php echo ucwords($page_title); ?>
@@ -43,7 +43,7 @@
 <?php echo form_hidden('ajax', ''); ?>
 <?php echo form_close(); ?>
 <script type="text/javascript">//<![CDATA[
-var form = "#barang_form";
+var form = "#transaksi_form";
 var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
 var message_area = "#message_area";
 var content_placeholder = "#main_content";
