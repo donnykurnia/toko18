@@ -14,7 +14,7 @@ class Transaksi_model extends MY_Model {
   {
     // Call the Model constructor
     parent::MY_Model();
-    $this->table = 'transaksi_model';
+    $this->table = 'transaksi';
   }
 
   /**
@@ -55,7 +55,7 @@ class Transaksi_model extends MY_Model {
    * @param $order_by string
    * @return result_array, array or FALSE
    */
-  function get_list_with_barang_username($condition='')
+  function get_total_with_barang_username($condition='')
   {
     $this->CI->load->model('user_model');
     $sql = "    SELECT COUNT(*) total ".
