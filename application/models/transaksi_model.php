@@ -30,10 +30,11 @@ class Transaksi_model extends MY_Model {
     $this->CI->load->model('user_model');
     $this->CI->load->model('barang_model');
     $sql = "    SELECT ".( $found_rows ? "SQL_CALC_FOUND_ROWS " : '').
-           "           t.*, b.kode_barang, b.nama_barang, u.username ".
+           "           t.*, (qty * harga_satuan - diskon) harga_total, ".
+           "           b.kode_barang, b.nama_barang, u.username ".
            "      FROM {$this->table} t ".
-           " LEFT JOIN {$this->CI->barang_model->table} b ON b.id=t.barang_id ";
-           " LEFT JOIN {$this->CI->user_model->table} u ON u.id=t.user_id ".
+           " LEFT JOIN {$this->CI->barang_model->table} b ON b.id=t.barang_id ".
+           " LEFT JOIN {$this->CI->user_model->table} u ON u.id=t.user_id ";
     if ( trim($condition) !== '' )
     {
       $where = trim($condition);
@@ -60,8 +61,8 @@ class Transaksi_model extends MY_Model {
     $this->CI->load->model('user_model');
     $sql = "    SELECT COUNT(*) total ".
            "      FROM {$this->table} t ".
-           " LEFT JOIN {$this->CI->barang_model->table} b ON b.id=t.barang_id ";
-           " LEFT JOIN {$this->CI->user_model->table} u ON u.id=t.user_id ".
+           " LEFT JOIN {$this->CI->barang_model->table} b ON b.id=t.barang_id ".
+           " LEFT JOIN {$this->CI->user_model->table} u ON u.id=t.user_id ";
     if ( trim($condition) !== '' )
     {
       $where = trim($condition);
