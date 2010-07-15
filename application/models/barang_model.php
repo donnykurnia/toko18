@@ -28,11 +28,19 @@ class Barang_model extends MY_Model {
   function get_list_with_username($num=10, $offset=0, $condition='', $order_by='', $found_rows=FALSE)
   {
     $this->CI->load->model('user_model');
+    $this->CI->load->model('transaksi_model');
+    //build sub_query
+    $sub_sql = "    SELECT b.*, u.username, ".
+               "           IFNULL((".
+               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_masuk') - ".
+               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_keluar')".
+               "           ), 0) qty ".
+               "      FROM {$this->table} b ".
+               " LEFT JOIN {$this->CI->user_model->table} u ON u.id=b.user_id ";
+    //actual query
     $sql = "    SELECT ".( $found_rows ? "SQL_CALC_FOUND_ROWS " : '').
-           "           b.*, u.username ".
-           "      FROM {$this->table} b ".
-           " LEFT JOIN {$this->CI->user_model->table} u ".
-           "        ON u.id=b.user_id ";
+           "           * ".
+           "      FROM ({$sub_sql}) barang_qty ";
     if ( trim($condition) !== '' )
     {
       $where = trim($condition);
@@ -57,10 +65,18 @@ class Barang_model extends MY_Model {
   function get_total_with_username($condition='')
   {
     $this->CI->load->model('user_model');
+    $this->CI->load->model('transaksi_model');
+    //build sub_query
+    $sub_sql = "    SELECT b.*, u.username, ".
+               "           IFNULL((".
+               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_masuk') - ".
+               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_keluar')".
+               "           ), 0) qty ".
+               "      FROM {$this->table} b ".
+               " LEFT JOIN {$this->CI->user_model->table} u ON u.id=b.user_id ";
+    //actual query
     $sql = "    SELECT COUNT(*) total ".
-           "      FROM {$this->table} b ".
-           " LEFT JOIN {$this->CI->user_model->table} u ".
-           "        ON u.id=b.user_id ";
+           "      FROM ({$sub_sql}) barang_qty ";
     if ( trim($condition) !== '' )
     {
       $where = trim($condition);
