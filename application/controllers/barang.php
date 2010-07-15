@@ -189,7 +189,7 @@ class Barang extends MY_Controller {
     //put into result array
     $result = array(
       'sEcho'                 => intval($this->input->get('sEcho')),
-      'iTotalRecords'         => $this->barang_model->get_total($condition),
+      'iTotalRecords'         => $this->barang_model->get_total_with_username($condition),
       'iTotalDisplayRecords'  => $barang_list['found_rows']
     );
     if ( ! $barang_list['rs'] )
