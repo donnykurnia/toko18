@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `barang` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `transaksi`;
-CREATE TABLE IF NOT EXISTS `pembelian` (
+CREATE TABLE IF NOT EXISTS `transaksi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT 0,
   `barang_id` int(11) NOT NULL DEFAULT 0,
