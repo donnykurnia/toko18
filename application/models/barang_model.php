@@ -70,10 +70,10 @@ class Barang_model extends MY_Model {
     $this->CI->load->model('transaksi_model');
     //build sub_query
     $sub_sql = "    SELECT b.*, u.username, ".
-               "           IFNULL((".
-               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_masuk') - ".
-               "            (SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_keluar')".
-               "           ), 0) qty ".
+               "           (".
+               "            IFNULL((SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_masuk'), 0) - ".
+               "            IFNULL((SELECT SUM(qty) FROM {$this->CI->transaksi_model->table} t WHERE t.barang_id=b.id AND t.jenis_transaksi='barang_keluar'), 0)".
+               "           ) qty ".
                "      FROM {$this->table} b ".
                " LEFT JOIN {$this->CI->user_model->table} u ON u.id=b.user_id ";
     //actual query
