@@ -90,7 +90,7 @@ class Pembelian extends MY_Controller {
     $offset = ($current_page - 1) * $item_per_page;
     //handle filter
     $suffix_arr = array();
-    $arr_condition = array();
+    $arr_condition = array("jenis_transaksi='barang_masuk'");
     $condition = implode(' AND ', $arr_condition);
     $sort = "tanggal_transaksi DESC";
     //get pembelian list
@@ -163,20 +163,26 @@ class Pembelian extends MY_Controller {
     $item_per_page = intval($this->input->get('iDisplayLength'));
     $offset = intval($this->input->get('iDisplayStart'));
     //build condition and sort
-    $arr_condition = array();
+    $arr_condition = array("jenis_transaksi='barang_masuk'");
+    $arr_condition_filter = array();
     $sSearch = trim($this->input->get('sSearch'));
     if ( $sSearch != '' )
     {
       $sSearch_e = $this->db->escape("%{$sSearch}%");
-      $arr_condition[] = "username LIKE {$sSearch_e}";
-      $arr_condition[] = "kode_barang LIKE {$sSearch_e}";
-      $arr_condition[] = "nama_barang LIKE {$sSearch_e}";
-      $arr_condition[] = "qty LIKE {$sSearch_e}";
-      $arr_condition[] = "harga_satuan LIKE {$sSearch_e}";
-      $arr_condition[] = "diskon LIKE {$sSearch_e}";
-      $arr_condition[] = "keterangan_transaksi LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "username LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "kode_barang LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "nama_barang LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "qty LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "harga_satuan LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "diskon LIKE {$sSearch_e}";
+      $arr_condition_filter[] = "keterangan_transaksi LIKE {$sSearch_e}";
     }
-    $condition = implode(" OR ", $arr_condition);
+    $condition_filter = implode(" OR ", $arr_condition_filter);
+    if ( $condition_filter !== '' )
+    {
+      $arr_condition[] = "({$condition_filter})";
+    }
+    $condition = implode(" AND ", $arr_condition);
     $sort_arr = array();
     $iSortingCols = intval($this->input->get('iSortingCols'));
     for ( $i = 0; $i < $iSortingCols; $i++ )
@@ -264,7 +270,7 @@ class Pembelian extends MY_Controller {
     //get parameter
     $pembelian_id = intval($this->uri->rsegment(3));
     $pembelian_detail = $this->transaksi_model->get_detail($pembelian_id);
-    if ( $pembelian_detail )
+    if ( $pembelian_detail AND $pembelian_detail['jenis_transaksi'] == 'barang_masuk' )
     {
       $mode = 'edit';
     }
@@ -369,8 +375,8 @@ class Pembelian extends MY_Controller {
     //set data for view
     $this->data['in_pembelian'] = TRUE;
     //page title
-    $this->data['title'] = 'Tambah data pembelian barang baru';
-    $this->data['page_title'] = 'Tambah data pembelian barang baru';
+    $this->data['title'] = 'Tambah data pembelian barang';
+    $this->data['page_title'] = 'Tambah data pembelian barang';
     if ( $mode == 'edit' )
     {
       $this->data['title'] = 'Edit data pembelian barang';
