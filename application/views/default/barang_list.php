@@ -34,9 +34,9 @@
       <td><?php echo $row['username']; ?></td>
       <td class="noprint">
         <a href="<?php echo site_url("barang/form/{$row['id']}"); ?>">Edit Barang</a>
-        | <a href="<?php echo site_url("pembelian/barang/{$row['id']}"); ?>">Beli Barang</a>
-        | <a href="<?php echo site_url("penjualan/barang/{$row['id']}"); ?>">Jual Barang</a>
-        | <a href="javascript:;" class="delete {'barang_id': <?php echo $row['id']; ?>}">Hapus Barang</a>
+        |<br/><a href="<?php echo site_url("pembelian/barang/{$row['id']}"); ?>">Beli Barang</a>
+        |<br/><a href="<?php echo site_url("penjualan/barang/{$row['id']}"); ?>">Jual Barang</a>
+        |<br/><a href="javascript:;" class="delete {'barang_id': <?php echo $row['id']; ?>}">Hapus Barang</a>
       </td>
     </tr>
   <?php endforeach; ?>
