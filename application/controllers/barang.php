@@ -209,7 +209,10 @@ class Barang extends MY_Controller {
           $row['qty'],
           $row['satuan_barang'],
           $row['username'],
-          '<a href="'.site_url("barang/form/{$row['id']}").'">Edit Barang</a> | <a href="javascript:;" class="delete {\'barang_id\': '.$row['id'].'}">Hapus Barang</a>'
+          '<a href="'.site_url("barang/form/{$row['id']}").'">Edit Barang</a> '.
+            '|<br/><a href="'.site_url("pembelian/barang/{$row['id']}").'">Beli Barang</a> '.
+            '|<br/><a href="'.site_url("penjualan/barang/{$row['id']}").'">Jual Barang</a> '.
+            '|<br/><a href="javascript:;" class="delete {\'barang_id\': '.$row['id'].'}">Hapus Barang</a>'
         );
       }
     }
