@@ -39,7 +39,6 @@
 jQuery.blockUI.defaults.css = {};
 jQuery.blockUI.defaults.overlayCSS = {};
 var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
-var content_placeholder = "#main_content";
 //]]></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/message_handler.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/template.js"></script>
