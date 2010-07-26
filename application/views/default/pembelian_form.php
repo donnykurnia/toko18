@@ -10,7 +10,7 @@
     <?php echo ucwords($page_title); ?>
   </legend>
   <div class="grid-12-12">
-    <label for="qty" class="form-lbl">Tanggal <em class="form-req">*</em></label>
+    <label for="tanggal_transaksi" class="form-lbl">Tanggal <em class="form-req">*</em></label>
     <input type="text" class="form-txt" maxlength="10"
            id="tanggal_transaksi" name="tanggal_transaksi" value="<?php echo set_value('tanggal_transaksi', ($pembelian_detail AND isset($pembelian_detail['tanggal_transaksi'])) ? date('Y-m-d', mysql_to_unix($pembelian_detail['tanggal_transaksi'])) : date('Y-m-d')); ?>" />
   </div>
