@@ -132,7 +132,6 @@ class Report extends MY_Controller {
     //additional js file
     $this->data['additional_js'] = array(
       base_url().'assets/js/jquery-ui-1.7.2.custom.min.js',
-      base_url().'assets/dataTables-1.6/media/js/jquery.dataTables.js',
       base_url().'assets/js/apps/report_list.js'
     );
     //load view
@@ -145,98 +144,6 @@ class Report extends MY_Controller {
       'page_footer'  => 'default/_footer',
     ));
     $this->view->render();
-  }
-
-  /**
-   *
-   * @return json
-   * @access public
-   */
-  function datatable()
-  {
-    //get page param
-    $item_per_page = intval($this->input->get('iDisplayLength'));
-    $offset = intval($this->input->get('iDisplayStart'));
-    //build condition and sort
-    $condition_arr = array("jenis_transaksi='barang_masuk'");
-    $condition_arr_filter = array();
-    $sSearch = trim($this->input->get('sSearch'));
-    if ( $sSearch != '' )
-    {
-      $sSearch_e = $this->db->escape("%{$sSearch}%");
-      $condition_arr_filter[] = "username LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "kode_barang LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "nama_barang LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "qty LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "harga_satuan LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "diskon LIKE {$sSearch_e}";
-      $condition_arr_filter[] = "keterangan_transaksi LIKE {$sSearch_e}";
-    }
-    $condition_filter = implode(" OR ", $condition_arr_filter);
-    if ( $condition_filter !== '' )
-    {
-      $condition_arr[] = "({$condition_filter})";
-    }
-    $condition = implode(" AND ", $condition_arr);
-    $sort_arr = array();
-    $iSortingCols = intval($this->input->get('iSortingCols'));
-    for ( $i = 0; $i < $iSortingCols; $i++ )
-    {
-      $iSortCol = intval($this->input->get("iSortCol_{$i}"));
-      $sSortDir = trim($this->input->get("sSortDir_{$i}")) == 'asc' ? 'asc' : 'desc';
-      $column_arr = array('','tanggal_transaksi','kode_barang','qty','harga_satuan','diskon','harga_total','username');
-      $sort_arr[] = "{$column_arr[$iSortCol]} {$sSortDir}";
-    }
-    $sort = implode(",", $sort_arr);
-    //get report list
-    $report_list = $this->transaksi_model->get_list_with_barang_username($item_per_page, $offset, $condition, $sort, TRUE);
-    //put into result array
-    $result = array(
-      'sEcho'                 => intval($this->input->get('sEcho')),
-      'iTotalRecords'         => $this->transaksi_model->get_total_with_barang_username($condition),
-      'iTotalDisplayRecords'  => $report_list['found_rows']
-    );
-    if ( ! $report_list['rs'] )
-    {
-      $result['aaData'] = array();
-    }
-    else
-    {
-      $i = $offset + 1;
-      foreach ( $report_list['rs'] as $row )
-      {
-        $result['aaData'][] = array(
-          $i++,
-          date('d M Y', mysql_to_unix($row['tanggal_transaksi'])),
-          '['.$row['kode_barang'].'] '.$row['nama_barang'],
-          $row['qty'],
-          'Rp. '.number_format($row['harga_satuan'], 2),
-          'Rp. '.number_format($row['diskon'], 2),
-          'Rp. '.number_format($row['harga_total'], 2)
-        );
-      }
-    }
-    //return json data
-    $this->output->set_output(json_encode($result));
-    return;
-  }
-
-  /**
-   *
-   * @return void
-   * @access public
-   */
-  function csv()
-  {
-    //get report list
-    $report_list = $this->transaksi_model->get_list_with_username(-1, 0, "", "tanggal_transaksi DESC");
-    $this->data['report_list'] = $report_list;
-    //get csv data
-    $report_list_csv = $this->load->view('default/report_csv', $this->data, TRUE);
-    //force download
-    $filename = "report_list_".date("Y-m-d").".csv";
-    $this->load->helper("download");
-    force_download($filename, $report_list_csv);
   }
 
 }
