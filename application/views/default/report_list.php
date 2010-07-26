@@ -38,13 +38,13 @@
   <thead>
     <tr>
       <th scope="col" class="tright">#</th>
-      <th scope="col">Tanggal Transaksi</th>
-      <th scope="col">Barang</th>
-      <th scope="col">Qty</th>
-      <th scope="col">Harga Satuan</th>
-      <th scope="col">Diskon</th>
-      <th scope="col">Harga Total</th>
-      <th scope="col">Input oleh</th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=tanggal&amp;sort_dir={$sort_dir}"; ?>">Tanggal Transaksi</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=barang&amp;sort_dir={$sort_dir}"; ?>">Barang</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=qty&amp;sort_dir={$sort_dir}"; ?>">Qty</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=harga_satuan&amp;sort_dir={$sort_dir}"; ?>">Harga Satuan</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=diskon&amp;sort_dir={$sort_dir}"; ?>">Diskon</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=harga_total&amp;sort_dir={$sort_dir}"; ?>">Harga Total</a></th>
+      <th scope="col"><a class="ajax_link" href="<?php echo "{$sort_base_url}sort=username&amp;sort_dir={$sort_dir}"; ?>">Input oleh</a></th>
     </tr>
   </thead>
   <tbody>
@@ -73,7 +73,7 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="6" class="tright">Total seluruh halaman</td>
+      <td colspan="6" class="tright">Total di seluruh halaman</td>
       <td class="tright">Rp. <?php echo number_format(($report_sum_total), 2); ?></td>
       <td>&nbsp;</td>
     </tr>

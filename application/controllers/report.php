@@ -90,7 +90,28 @@ class Report extends MY_Controller {
       $filter = TRUE;
     }
     $condition = implode(' AND ', $condition_arr);
+    //handle sort
     $sort = "tanggal_transaksi DESC";
+    $sort_arr = array(
+      'tanggal' => 'tanggal_transaksi',
+      'barang'  => 'kode_barang',
+      'qty'     => 'qty',
+      'harga_satuan'  => 'harga_satuan',
+      'diskon'        => 'diskon',
+      'harga_total'   => 'harga_total',
+      'username'      => 'username',
+    );
+    $sort_suffix_arr = $suffix_arr;
+    $sort_dir = trim($this->input->get('sort_dir')) == 'asc' ? 'ASC' : 'DESC';
+    if ( trim($this->input->get('sort')) != '' )
+    {
+      $sort_key = trim($this->input->get('sort'));
+      if ( isset($sort_arr[$sort_key]) )
+      {
+        $sort = "{$sort_arr[$sort_key]} {$sort_dir}";
+        $suffix_arr[] = "{$sort_key}=".($sort_dir=='ASC' ? 'desc' : 'asc');
+      }
+    }
     //get report list
     $report_list = $filter ? $this->transaksi_model->get_list_with_barang_username($item_per_page, $offset, $condition, $sort, TRUE) : FALSE;
     $this->data['report_list'] = $report_list['rs'];
@@ -109,6 +130,9 @@ class Report extends MY_Controller {
     $this->data['start']      = $this->paging->start;
     $this->data['per_page']   = $this->paging->per_page;
     $this->data['filter']     = $filter;
+    $this->data['sort_suffix_url'] = count($sort_suffix_arr) > 0 ? '?'.implode('&amp;', $sort_suffix_arr).'&amp;' : '?';
+    $this->data['sort_dir'] = $sort_dir=='ASC' ? 'desc' : 'asc';
+    $this->data['sort_base_url'] = site_url(sprintf($paging_config['base_url'], $paging_config['cur_page'], $this->data['sort_suffix_url']));
     //load barang_option
     $this->data['barang_options'] = $this->barang_model->get_for_options("--Semua barang--");
     $transaksi_enums = $this->transaksi_model->get_enum_values();
