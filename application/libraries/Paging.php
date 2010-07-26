@@ -16,7 +16,7 @@ class Paging {
   var $total_rows      = '0'; // Total number of items (database results)
   var $per_page        = 20; // Max number of items you want shown per page
   var $start           = '0'; // The start offset of current page
-  var $num_page        = '0'; // Total number of page
+  var $num_page        = '1'; // Total number of page
   var $page_array      = array(); // Array to store the page number
   var $num_links       = 2; // Number of links show before and after the currently viewed page.
                             // Example with num_links = 1, current page = 6, and num_page = 10

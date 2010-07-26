@@ -49,6 +49,29 @@ if ( ! function_exists('character_limiter'))
     }
   }
 }
+
+/**
+ * Enum display
+ *
+ * Display enum values by replace _ with space, and optionally uppercase first character
+ *
+ * @access  public
+ * @param string
+ * @param boolean
+ * @return  string
+ */ 
+if ( ! function_exists('enum_display'))
+{
+  function enum_display($str, $ucfirst = TRUE)
+  {
+    $result = str_replace('_', ' ', $str);
+    if ( $ucfirst )
+    {
+      $result = ucfirst($result);
+    }
+    return $result;
+  }
+}
   
 // ------------------------------------------------------------------------
 

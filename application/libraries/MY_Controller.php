@@ -61,6 +61,19 @@ class MY_Controller extends Controller {
     redirect($redirect_to);
   }
 
+  function _redirect_in_form_wrap($redirect_to)
+  {
+    if ( $this->is_ajax_request OR $this->is_ajax_form )
+    {
+      $this->data['reload'] = site_url($redirect_to);
+      //return json data
+      $this->output->set_output('<textarea>'.json_encode($this->data).'</textarea>');
+      return;
+    }
+    //not an ajax
+    redirect($redirect_to);
+  }
+
 }
 
 /* End of file MY_Controller.php */

@@ -52,6 +52,7 @@ class MY_Session extends CI_Session {
 	{
 		// Fetch the cookie
 		$session = $this->CI->input->cookie($this->sess_cookie_name) ? $this->CI->input->cookie($this->sess_cookie_name) : $this->CI->input->post('cookie_data');
+		$session_from = $this->CI->input->cookie($this->sess_cookie_name) ? 'cookie' : 'post';
 
 		// No cookie?  Goodbye cruel world!...
 		if ($session === FALSE)
@@ -105,7 +106,7 @@ class MY_Session extends CI_Session {
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 50)))
+		if ($session_from == 'cookie' AND $this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 50)))
 		{
 			$this->sess_destroy();
 			return FALSE;

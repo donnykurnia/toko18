@@ -21,6 +21,7 @@ class MY_Model extends Model {
   var $allowed_types  = 'txt|doc|pdf|zip|gif|jpg|png';
   var $encrypt_name   = TRUE;
   var $max_filename   = 255;
+  var $thumb_prefix   = 'thumb_';
   var $CI;
 
   function MY_Model()
@@ -69,9 +70,9 @@ class MY_Model extends Model {
    */
   function get_upload_url($filename='', $thumbnail=FALSE)
   {
-    if ( $thumbnail AND file_exists($this->get_upload_path('thumb_'.$filename)) )
+    if ( $thumbnail AND file_exists($this->get_upload_path($this->thumb_prefix.$filename)) )
     {
-      return $this->upload_url.'thumb_'.$filename;
+      return $this->upload_url.$this->thumb_prefix.$filename;
     }
     return $this->upload_url.$filename;
   }
@@ -93,10 +94,13 @@ class MY_Model extends Model {
    * @param $offset integer
    * @param $condition string
    * @param $order_by string
+   * @param $found_rows boolean
    * @return result_array, array or FALSE
    */
   function get_list($num=10, $offset=0, $condition='', $order_by='', $found_rows=FALSE)
   {
+    //reset
+    $this->db->_reset_select();
     //default value
     if ( ! $found_rows )
     {
@@ -279,9 +283,9 @@ class MY_Model extends Model {
       $rs = $query->result_array();
       foreach ( $rs as $row )
       {
-        if ( ereg(('set|enum'), $row['Type']) )
+        if ( preg_match(('/set|enum/'), $row['Type']) )
         {
-          eval(ereg_replace('set|enum', '$'.$row['Field'].' = array', $row['Type']).';');
+          eval(preg_replace('/set|enum/', '$'.$row['Field'].' = array', $row['Type']).';');
           $enum_result[strtolower($row['Field'])] = array_combine($$row['Field'], $$row['Field']);
         }
       }
@@ -301,7 +305,7 @@ class MY_Model extends Model {
     //default data
     $upload_data = array();
     //upload config
-    if ( count($config) == 0)
+    if ( count($config) == 0 )
     {
       $config['upload_path']    = $this->upload_path;
       $config['allowed_types']  = $this->allowed_types;
@@ -322,6 +326,171 @@ class MY_Model extends Model {
       $upload_data = $this->CI->upload->data();
     }
     return $upload_data;
+  }
+
+  /**
+   * Create thumbnail
+   * @param $upload_data array
+   * @param $thumb_width integer
+   */
+  function create_thumb($upload_data=array(), $thumb_width=145, $thumb_height_crop=0)
+  {
+    //sanitize
+    $thumb_width = intval($thumb_width);
+    $thumb_height_crop = intval($thumb_height_crop);
+    //load library
+    $this->CI->load->library('image_lib');
+    //clear image_lib setting
+    $this->CI->image_lib->clear();
+    //set resize conf
+    $resize_conf = array(
+      'image_library'   => 'imagemagick',
+      'library_path'    => '/usr/local/bin/',
+      'source_image'    => $upload_data['full_path'],
+      'new_image'       => $upload_data['file_path'].$this->thumb_prefix.$upload_data['raw_name'].$upload_data['file_ext'],
+      'create_thumb'    => FALSE,
+      'master_dim'      => 'width',
+      'width'           => $thumb_width,
+      'height'          => 1,
+      'maintain_ratio'  => TRUE
+    );
+    $this->CI->image_lib->initialize($resize_conf);
+    $result = $this->CI->image_lib->resize();
+    if ( $result )
+    {
+      if ( $thumb_height_crop > 0 )
+      {
+        //clear image_lib setting
+        $this->CI->image_lib->clear();
+        //set crop conf
+        $crop_conf = array(
+          'image_library'   => $resize_conf['image_library'],
+          'library_path'    => $resize_conf['library_path'],
+          'source_image'    => $resize_conf['new_image'],
+          'x_axis'          => 0,
+          'y_axis'          => 0,
+          'width'           => $thumb_width,
+          'height'          => $thumb_height_crop,
+          'maintain_ratio'  => FALSE
+        );
+        $this->CI->image_lib->initialize($crop_conf);
+        $this->CI->image_lib->crop();
+      }
+    }
+    else
+    {
+      @copy($upload_data['full_path'], $upload_data['file_path'].$this->thumb_prefix.$upload_data['raw_name'].$upload_data['file_ext']);
+    }
+    return $result;
+  }
+
+  /**
+   * Create thumbnail
+   * @param $upload_data array
+   * @param $thumb_width integer
+   */
+  function resize_create_thumb($upload_data=array(), $resize_width=200, $thumb_width=145, $thumb_height_crop=80)
+  {
+    //sanitize
+    $resize_width = intval($resize_width);
+    $thumb_width = intval($thumb_width);
+    $thumb_height_crop = intval($thumb_height_crop);
+    //load library
+    $this->CI->load->library('image_lib');
+    //clear image_lib setting
+    $this->CI->image_lib->clear();
+    //set resize conf
+    $resize_conf = array(
+      'image_library'   => 'imagemagick',
+      'library_path'    => '/usr/local/bin/',
+      'source_image'    => $upload_data['full_path'],
+      'new_image'       => $upload_data['file_path'].$this->thumb_prefix.$upload_data['raw_name'].$upload_data['file_ext'],
+      'create_thumb'    => FALSE,
+      'master_dim'      => 'width',
+      'width'           => $resize_width,
+      'height'          => 1,
+      'maintain_ratio'  => TRUE
+    );
+    $this->CI->image_lib->initialize($resize_conf);
+    $result = $this->CI->image_lib->resize();
+    if ( $result )
+    {
+      if ( $thumb_height_crop > 0 )
+      {
+        //clear image_lib setting
+        $this->CI->image_lib->clear();
+        //set crop conf
+        $crop_conf = array(
+          'image_library'   => $resize_conf['image_library'],
+          'library_path'    => $resize_conf['library_path'],
+          'source_image'    => $resize_conf['new_image'],
+          'x_axis'          => 0,
+          'y_axis'          => 0,
+          'width'           => $thumb_width,
+          'height'          => $thumb_height_crop,
+          'maintain_ratio'  => FALSE
+        );
+        $this->CI->image_lib->initialize($crop_conf);
+        $this->CI->image_lib->crop();
+      }
+    }
+    else
+    {
+      @copy($upload_data['full_path'], $upload_data['file_path'].$this->thumb_prefix.$upload_data['raw_name'].$upload_data['file_ext']);
+    }
+    return $result;
+  }
+
+  /**
+   * Resize and crop uploaded picture
+   * @param $upload_data array
+   * @param $resize_width integer
+   * @param $crop_height integer
+   */
+  function resize_crop($upload_data=array(), $resize_width=1000, $crop_height=331)
+  {
+    //sanitize
+    $resize_width = intval($resize_width);
+    $crop_height = intval($crop_height);
+    //load library
+    $this->CI->load->library('image_lib');
+    //clear image_lib setting
+    $this->CI->image_lib->clear();
+    //set resize conf
+    $resize_conf = array(
+      'image_library'   => 'imagemagick',
+      'library_path'    => '/usr/local/bin/',
+      'source_image'    => $upload_data['full_path'],
+      'create_thumb'    => FALSE,
+      'master_dim'      => 'width',
+      'width'           => $resize_width,
+      'height'          => 1,
+      'maintain_ratio'  => TRUE
+    );
+    $this->CI->image_lib->initialize($resize_conf);
+    $result = $this->CI->image_lib->resize();
+    if ( $result )
+    {
+      if ( $crop_height > 0 )
+      {
+        //clear image_lib setting
+        $this->CI->image_lib->clear();
+        //set crop conf
+        $crop_conf = array(
+          'image_library'   => $resize_conf['image_library'],
+          'library_path'    => $resize_conf['library_path'],
+          'source_image'    => $resize_conf['source_image'],
+          'x_axis'          => 0,
+          'y_axis'          => 0,
+          'width'           => $resize_width,
+          'height'          => $crop_height,
+          'maintain_ratio'  => FALSE
+        );
+        $this->CI->image_lib->initialize($crop_conf);
+        $this->CI->image_lib->crop();
+      }
+    }
+    return $result;
   }
 
   /**
@@ -377,6 +546,35 @@ class MY_Model extends Model {
       return $result;
     }
     return FALSE;
+  }
+
+  /**
+   * Delete data based on column other than primary key
+   * @param $column_name string
+   * @param $column_value mixed
+   * @return boolean
+   */
+  function delete_by_column($column_name='', $column_value=0)
+  {
+    //default value
+    $result = TRUE;
+    //sanitize
+    $column_name = trim($column_name);
+    $column_value = $this->db->escape(trim($column_value));
+    if ( $column_name != "" AND $column_value != "" )
+    {
+      //get data based on given column
+      $list = $this->get_all("{$column_name}={$column_value}");
+      if ( $list )
+      {
+        foreach ( $list as $row )
+        {
+          //using delete function to make sure any custom code executed
+          $result = $result AND $this->delete($row[$this->primary_key]);
+        }
+      }
+    }
+    return $result;
   }
 
   /**
