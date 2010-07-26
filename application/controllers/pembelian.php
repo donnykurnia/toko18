@@ -212,7 +212,7 @@ class Pembelian extends MY_Controller {
       {
         $result['aaData'][] = array(
           $i++,
-          date('d M Y H:i', mysql_to_unix($row['tanggal_transaksi'])),
+          date('d M Y', mysql_to_unix($row['tanggal_transaksi'])),
           '['.$row['kode_barang'].'] '.$row['nama_barang'],
           $row['qty'],
           'Rp. '.number_format($row['harga_satuan'], 2),
@@ -296,7 +296,7 @@ class Pembelian extends MY_Controller {
     $validation[] = array(
       'field' => 'diskon',
       'label' => 'Diskon',
-      'rules' => 'trim|required|numeric|max_length[16]'
+      'rules' => 'trim|numeric|max_length[16]'
     );
     $validation[] = array(
       'field' => 'keterangan_transaksi',
@@ -316,6 +316,7 @@ class Pembelian extends MY_Controller {
       //process form
       $data_pembelian = array(
         'user_id'               => $this->user_model->session_user_id(),
+        'tanggal_transaksi'     => $this->input->post('tanggal_transaksi'),
         'barang_id'             => $this->input->post('barang_id'),
         'jenis_transaksi'       => 'barang_masuk',
         'qty'                   => $this->input->post('qty'),
@@ -325,7 +326,6 @@ class Pembelian extends MY_Controller {
       );
       if ( $mode == 'add' )
       {
-        $data_pembelian['tanggal_transaksi'] = date('Y-m-d H:i:s');
         $result = $this->transaksi_model->insert($data_pembelian);
         if ( $result )
         {

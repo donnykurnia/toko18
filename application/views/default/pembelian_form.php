@@ -10,6 +10,11 @@
     <?php echo ucwords($page_title); ?>
   </legend>
   <div class="grid-12-12">
+    <label for="qty" class="form-lbl">Tanggal <em class="form-req">*</em></label>
+    <input type="text" class="form-txt" maxlength="10"
+           id="tanggal_transaksi" name="tanggal_transaksi" value="<?php echo set_value('tanggal_transaksi', ($pembelian_detail AND isset($pembelian_detail['tanggal_transaksi'])) ? date('Y-m-d', mysql_to_unix($pembelian_detail['tanggal_transaksi'])) : date('Y-m-d')); ?>" />
+  </div>
+  <div class="grid-12-12">
     <label for="barang_id" class="form-lbl">Barang <em class="form-req">*</em></label>
     <?php echo form_dropdown('barang_id', $barang_options, ($pembelian_detail AND isset($pembelian_detail['barang_id'])) ? $pembelian_detail['barang_id'] : array(), 'id="barang_id" class="form-small"'); ?>
   </div>
@@ -28,7 +33,7 @@
     <label for="diskon" class="form-lbl">Diskon</label>
     <span class="fleft field_lbl">Rp</span>
     <input type="text" class="form-txt" maxlength="18"
-           id="diskon" name="diskon" value="<?php echo set_value('diskon', ($pembelian_detail AND isset($pembelian_detail['diskon'])) ? $pembelian_detail['diskon'] : ''); ?>" />
+           id="diskon" name="diskon" value="<?php echo set_value('diskon', ($pembelian_detail AND isset($pembelian_detail['diskon'])) ? $pembelian_detail['diskon'] : '0'); ?>" />
   </div>
   <div class="grid-12-12">
     <label for="keterangan_transaksi" class="form-lbl">Keterangan Transaksi</label>
@@ -50,3 +55,5 @@ var content_placeholder = "#main_content";
 var load_message = "Menyimpan data...";
 //]]></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/ajax_form.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/pembelian_form.js"></script>

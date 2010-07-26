@@ -27,7 +27,7 @@
   <?php foreach ( $penjualan_list as $row ): ?>
     <tr>
       <td class="tright"><?php echo $i++; ?></td>
-      <td><?php echo date('d M Y H:i', mysql_to_unix($row['tanggal_transaksi'])); ?></td>
+      <td><?php echo date('d M Y', mysql_to_unix($row['tanggal_transaksi'])); ?></td>
       <td>[<?php echo $row['kode_barang']; ?>] <?php echo $row['nama_barang']; ?></td>
       <td><?php echo $row['qty']; ?></td>
       <td>Rp. <?php echo number_format($row['harga_satuan'], 2); ?></td>
