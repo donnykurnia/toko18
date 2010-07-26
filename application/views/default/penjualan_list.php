@@ -3,7 +3,8 @@
   <?php $this->load->view('_display_message'); ?>
 <?php endif; ?>
 </div>
-<a href="<?php echo site_url('penjualan/form'); ?>" class="noprint">+ Penjualan Baru</a>
+<a href="<?php echo site_url('penjualan/form'); ?>" class="noprint">+ Penjualan Baru</a><br/>
+<a href="<?php echo site_url('penjualan/form_multi'); ?>" class="noprint">+ Penjualan Baru Multiple</a>
 <?php echo form_open(current_url(), array('id' => 'delete_penjualan')); ?>
 <?php if ( ! $penjualan_list ): ?>
   <p class="no_data">Belum ada data penjualan barang!</p>

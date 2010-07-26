@@ -279,6 +279,11 @@ class Penjualan extends MY_Controller {
     //validation rules
     $validation = array();
     $validation[] = array(
+      'field' => 'tanggal_transaksi',
+      'label' => 'Tanggal',
+      'rules' => 'trim|required|max_length[10]|valid_date_Ymd'
+    );
+    $validation[] = array(
       'field' => 'barang_id',
       'label' => 'Barang',
       'rules' => 'trim|required|integer|callback_check_barang'
@@ -393,6 +398,159 @@ class Penjualan extends MY_Controller {
     $this->view->load(array(
       'page_header'  => 'default/_header',
       'main_content' => 'default/penjualan_form',
+      'page_footer'  => 'default/_footer',
+    ));
+    $this->view->render();
+  }
+
+  /**
+   *
+   * @return void
+   * @access public
+   */
+  function form_multi()
+  {
+    //check privileges
+    //if not already login, redirect
+    if ( ! $this->user_model->check_login() )
+    {
+      $this->_redirect_in_form('user/login');
+    }
+    //if not admin, redirect
+    if ( ! $this->user_model->check_is_administrator() )
+    {
+      $this->_redirect_in_form('dashboard/index');
+    }
+    //determine the mode
+    $mode = 'add';
+    //validation
+    $result = FALSE;
+    //validation rules
+    $validation = array();
+    if ( $this->input->post('barang_id') !== FALSE )
+    {
+      foreach ( $_POST['barang_id'] as $index => $field )
+      {
+        if ( intval($_POST['barang_id'][$index]) > 0 )
+        {
+          $validation[] = array(
+            'field' => "tanggal_transaksi[{$index}]",
+            'label' => "Tanggal baris {$index}",
+            'rules' => 'trim|required|max_length[10]|valid_date_Ymd'
+          );
+          $validation[] = array(
+            'field' => "barang_id[{$index}]",
+            'label' => "Barang baris {$index}",
+            'rules' => 'trim|required|integer|callback_check_barang'
+          );
+          $validation[] = array(
+            'field' => "qty[{$index}]",
+            'label' => "Qty baris {$index}",
+            'rules' => 'trim|required|integer|max_length[11]'
+          );
+          $validation[] = array(
+            'field' => "harga_satuan[{$index}]",
+            'label' => "Harga Satuan baris {$index}",
+            'rules' => 'trim|required|numeric|max_length[16]'
+          );
+          $validation[] = array(
+            'field' => "diskon[{$index}]",
+            'label' => "Diskon baris {$index}",
+            'rules' => 'trim|numeric|max_length[16]'
+          );
+          $validation[] = array(
+            'field' => "keterangan_transaksi[{$index}]",
+            'label' => "Keterangan Transaksi baris {$index}",
+            'rules' => 'trim'
+          );
+        }
+      }
+    }
+    $this->load->library('form_validation');
+    $this->form_validation->set_error_delimiters('', '<br/>');
+    $this->form_validation->set_rules($validation);
+    //run validation
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->data['error_message'] .= str_replace("\n", "", validation_errors());
+    }
+    else
+    {
+      //process form
+      if ( $this->input->post('barang_id') !== FALSE )
+      {
+        foreach ( $_POST['barang_id'] as $index => $field )
+        {
+          if ( intval($_POST['barang_id'][$index]) > 0 )
+          {
+            $data_penjualan = array(
+              'user_id'               => $this->user_model->session_user_id(),
+              'tanggal_transaksi'     => trim($_POST['tanggal_transaksi'][$index]),
+              'barang_id'             => intval($_POST['barang_id'][$index]),
+              'jenis_transaksi'       => 'barang_keluar',
+              'qty'                   => intval($_POST['qty'][$index]),
+              'harga_satuan'          => floatval($_POST['harga_satuan'][$index]),
+              'diskon'                => floatval($_POST['diskon'][$index]),
+              'keterangan_transaksi'  => trim($_POST['keterangan_transaksi'][$index])
+            );
+            if ( $mode == 'add' )
+            {
+              $result = $this->transaksi_model->insert($data_penjualan);
+              if ( $result )
+              {
+                $this->data['success_message'] = 'Data penjualan barang telah disimpan!';
+                $penjualan_id = $result;
+              }
+            }
+            //get error message
+            $this->data['error_message'] .= str_replace("\n", "", $this->transaksi_model->display_errors('', '<br/>'));
+          }
+        }
+      }
+    }
+    if ( count($_POST) > 0 )
+    {
+      //after process
+      $redirect_to = 'penjualan/index';
+      if ( $this->is_ajax_request )
+      {
+        if ( $result )
+        {
+          $this->data['reload'] = site_url($redirect_to);
+        }
+        //return json data
+        $this->output->set_output(json_encode($this->data));
+        return;
+      }
+      //not an ajax
+      if ( $result )
+      {
+        if ( $this->data['error_message'] )
+        {
+          $this->session->set_flashdata('error_message', $this->data['error_message']);
+        }
+        if ( $this->data['success_message'] )
+        {
+          $this->session->set_flashdata('success_message', $this->data['success_message']);
+        }
+        redirect($redirect_to);
+      }
+    }
+    //set data for view
+    $this->data['in_penjualan'] = TRUE;
+    //page title
+    $this->data['title'] = 'Tambah data penjualan barang';
+    $this->data['page_title'] = 'Tambah data penjualan barang';
+    $this->data['mode'] = $mode;
+    //load barang_option
+    $this->data['barang_options'] = $this->barang_model->get_for_options("--Pilih barang--");
+    //load view
+    $this->load->library('view');
+    $this->view->layout = 'default/layout/template';
+    $this->view->data($this->data);
+    $this->view->load(array(
+      'page_header'  => 'default/_header',
+      'main_content' => 'default/penjualan_form_multi',
       'page_footer'  => 'default/_footer',
     ));
     $this->view->render();
