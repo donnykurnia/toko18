@@ -572,22 +572,6 @@ class Pembelian extends MY_Controller {
     return TRUE;
   }
 
-  /**
-   *
-   * @param $str string
-   * @return boolean
-   * @access public
-   */
-  function check_tanggal($str)
-  {
-    if ( trim($str) != '' )
-    {
-      $this->form_validation->set_message('check_tanggal', 'Masukkan tanggal yang valid!');
-      return FALSE;
-    }
-    return TRUE;
-  }
-
 }
 
 /* End of file pembelian.php */
