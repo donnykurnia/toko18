@@ -42,6 +42,7 @@ var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
 //]]></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/message_handler.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/template.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/load_page.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/ajax_link.js"></script>
 <?php if ( isset($additional_js) AND is_array($additional_js) ): ?>
 <?php foreach ( $additional_js as $row ): ?>
