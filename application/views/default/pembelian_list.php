@@ -3,7 +3,8 @@
   <?php $this->load->view('_display_message'); ?>
 <?php endif; ?>
 </div>
-<a href="<?php echo site_url('pembelian/form'); ?>" class="noprint">+ Pembelian Baru</a>
+<a href="<?php echo site_url('pembelian/form'); ?>" class="noprint">+ Pembelian Baru</a><br/>
+<a href="<?php echo site_url('pembelian/form_multi'); ?>" class="noprint">+ Pembelian Baru Multiple</a>
 <?php echo form_open(current_url(), array('id' => 'delete_pembelian')); ?>
 <?php if ( ! $pembelian_list ): ?>
   <p class="no_data">Belum ada data pembelian barang!</p>
