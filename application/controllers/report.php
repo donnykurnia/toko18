@@ -73,7 +73,7 @@ class Report extends MY_Controller {
     }
     if ( trim($this->input->get('end_date')) != '' )
     {
-      $date = $this->db->escape(date('Y-m-d H:i:s', strtotime(trim($this->input->get('end_date')))));
+      $date = $this->db->escape(date('Y-m-d H:i:s', strtotime(trim($this->input->get('end_date')).' 23:59:59')));
       $condition_arr[] = "tanggal_transaksi <= {$date}";
       $suffix_arr[] = "end_date=".urlencode(trim($this->input->get('end_date')));
       $filter = TRUE;

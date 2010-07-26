@@ -2,7 +2,7 @@
 <div id="message_area">
   <?php $this->load->view('_display_message'); ?>
 </div>
-<?php echo form_open(current_url(), array('method' => 'get', 'id' => 'filter_form', 'class' => 'form')); ?>
+<?php echo form_open(current_url(), array('method' => 'get', 'id' => 'filter_form', 'class' => 'form w300')); ?>
 <fieldset>
   <legend>Filter</legend>
   <div class="grid-12-12">
@@ -17,11 +17,11 @@
   </div>
   <div class="grid-12-12">
     <label for="barang_id" class="form-lbl">Barang <em class="form-req">*</em></label>
-    <?php echo form_dropdown('barang_id', $barang_options, array(), 'id="barang_id" class="form-small"'); ?>
+    <?php echo form_dropdown('barang_id', $barang_options, array(), 'id="barang_id"'); ?>
   </div>
   <div class="grid-12-12">
     <label for="jenis_transaksi" class="form-lbl">Jenis Transaksi <em class="form-req">*</em></label>
-    <?php echo form_dropdown('jenis_transaksi', $jenis_transaksi_options, array(), 'id="jenis_transaksi" class="form-small"'); ?>
+    <?php echo form_dropdown('jenis_transaksi', $jenis_transaksi_options, array(), 'id="jenis_transaksi"'); ?>
   </div>
   <div class="grid-12-12 field-clear field-button">
     <input class="form-button form-right" type="submit" title="Filter" value="Filter" />
@@ -94,11 +94,8 @@ var blockui_image = "<?php echo base_url(); ?>assets/images/loading-dark.gif";
 var message_area = "#message_area";
 var content_placeholder = "#report_area";
 var load_message = "Loading data...";
-//]]></script>
-<script type="text/javascript">//<![CDATA[
 var dataTableSource = "<?php echo site_url('report/datatable'); ?>";
 var start = <?php echo number_format($start, 0); ?>;
 var per_page = <?php echo number_format($per_page, 0, '', ''); ?>;
 //]]></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/apps/report1_datatable.js"></script>
 <?php endif; ?>
