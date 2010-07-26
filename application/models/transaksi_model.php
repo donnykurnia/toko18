@@ -49,6 +49,33 @@ class Transaksi_model extends MY_Model {
   }
 
   /**
+   * Get sum of harga_total
+   * @param $condition string
+   * @return float
+   */
+  function get_sum_harga_total($condition='')
+  {
+    $this->CI->load->model('user_model');
+    $this->CI->load->model('barang_model');
+    $sql = "    SELECT SUM(qty * harga_satuan - diskon) sum_harga_total ".
+           "      FROM {$this->table} t ".
+           " LEFT JOIN {$this->CI->barang_model->table} b ON b.id=t.barang_id ".
+           " LEFT JOIN {$this->CI->user_model->table} u ON u.id=t.user_id ";
+    if ( trim($condition) !== '' )
+    {
+      $where = trim($condition);
+      $sql .= " WHERE ( {$where} ) ";
+    }
+    $result = $this->get_list_by_sql(1, 0, $sql);
+    if ( $result )
+    {
+      $row = $result[0];
+      return $row['sum_harga_total'];
+    }
+    return 0.0;
+  }
+
+  /**
    * Get total joined with barang table and user table to get nama_barang and username column
    * @param $num integer
    * @param $offset integer
